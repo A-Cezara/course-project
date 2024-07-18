@@ -1,4 +1,4 @@
-import Profile from './Profile';
+
 import Sidebar from './Sidebar';
 import TutorsList from './TutorsList';
 import University from './University/University';
@@ -36,7 +36,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <Profile />
+
       <Sidebar />
       <main className='main'>
         <h1 className='page-title'>University Information</h1>
