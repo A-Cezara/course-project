@@ -1,20 +1,8 @@
-.sidebar {
-    background: #FFFFFF;
-    width: 320px;
-    position: relative;
-}
-
-.sidebar-brand {
-    background: #161D2A;
-    height: 80px;
-    width: 100%;
-}
-
-.sidebar-control {
+.toggle {
     background: #FF6B0A;
     position: absolute;
     top: 96px;
-    left: 310px;
+    right: -16px;
     outline: none;
     border: none;
     border-radius: 100%;
@@ -28,13 +16,8 @@
     cursor: pointer;
 }
 
-.sidebar-control svg {
+.toggle svg {
     color: #fff;
     height: 16px;
     width: 16px;
-    fill: white;
-    
-    path {
-        fill: #fff;
-    }
 }

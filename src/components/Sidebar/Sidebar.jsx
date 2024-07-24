@@ -1,25 +1,53 @@
-import Menu from "../Menu";
-import { HiBookOpen, HiAcademicCap, HiChevronLeft } from "react-icons/hi";
+import Menu from '../Menu';
+import { HiBookOpen, HiAcademicCap } from 'react-icons/hi';
 import './Sidebar.css';
+import { Component } from 'react';
+import SidebarToggle from './SidebarToggle/SidebarToggle';
+import { clsx } from 'clsx';
 
-function Sidebar() {
-    const isMenuVisible = true;
-    const menuConfig = [
-        {
-          icon: <HiBookOpen />,
-          name: "University",
-        },
-        {
-          icon: <HiAcademicCap />,
-          name: "Faculties",
-        },
-    ];
+class Sidebar extends Component {
+  constructor(props) {
+    super(props);
 
-    return <aside className="sidebar">
-        <div className="sidebar-brand"></div>
-        <button className="sidebar-control"><HiChevronLeft /></button>
-        <Menu items={menuConfig} isVisible={isMenuVisible} />
-    </aside>
+    this.state = {
+      isMenuVisible: true,
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  menuConfig = [
+    {
+      icon: <HiBookOpen />,
+      name: 'University',
+    },
+    {
+      icon: <HiAcademicCap />,
+      name: 'Faculties',
+    },
+  ];
+
+  handleClick() {
+    this.setState({
+      isSidebarExpanded: !this.state.isSidebarExpanded,
+    });
+  }
+
+  render() {
+    const menuConfig = this.menuConfig;
+    return (
+      <aside className={clsx("sidebar", !this.state.isSidebarExpanded && "sidebar--collapsed")}>
+        <SidebarToggle handleClick={this.handleClick} isExpanded={this.state.isSidebarExpanded} />
+
+        {this.state.isSidebarExpanded && (
+          <>
+            <div className="sidebar-brand"></div>
+            <Menu items={menuConfig} />
+          </>
+        )}
+      </aside>
+    );
+  }
 }
 
 export default Sidebar;
