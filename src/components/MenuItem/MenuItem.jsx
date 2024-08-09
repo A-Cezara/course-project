@@ -9,3 +9,4 @@ export default function MenuItem({item, isActive}) {
     <li className={MenuItemStyle}>{item.icon} {item.name}</li>
   )
 }
+

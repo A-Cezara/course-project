@@ -13,7 +13,7 @@ class UniversityClass extends Component {
     };
   }
 
-  imagePath = '/images/School.png';
+  imagePath = '/images/School@2x 1.png';
 
   render() {
     return (
