@@ -3,7 +3,7 @@ import Paper from '../Paper';
 import { HiPencilAlt, HiTrash } from 'react-icons/hi';
 
 import styles from './University.module.css';
-import Modal from 'components/Modal';
+import Modal from 'components/Modal/Modal';
 
 export default function University(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);

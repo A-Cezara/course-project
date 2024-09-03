@@ -5,10 +5,10 @@ import { useState, useEffect } from 'react';
 import SidebarToggle from './SidebarToggle/SidebarToggle';
 import { clsx } from 'clsx';
 import React from 'react'
-
+import useToggle from '../hooks/useToggle';
 
 export default function Sidebar(props) {
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [isSidebarExpanded, handleClick] = useToggle(true);
 
   const menuConfig = [
     {
@@ -29,9 +29,6 @@ export default function Sidebar(props) {
     };
   }, [])
 
-  function handleClick() {
-    setIsSidebarExpanded(!isSidebarExpanded);
-  }
 
   return (
     <aside
