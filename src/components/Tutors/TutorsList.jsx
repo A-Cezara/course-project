@@ -8,8 +8,8 @@ import Input from 'components/common/Input/Input';
 import axios from 'axios';
 import Loading from 'components/common/Loading';
 import Alert from 'components/common/Alert';
-import useToggle from '../hooks/useToggle';
-import { useDebounce } from "@uidotdev/usehooks";
+import useToggle from '../../hooks/useToggle';
+import { useDebounce } from '@uidotdev/usehooks';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -47,7 +47,6 @@ export default function TutorsList(props) {
     console.log('Aici');
     fetchData();
   }, []);
-
 
   function renderList(items) {
     return items.map(item => (
@@ -103,7 +102,9 @@ export default function TutorsList(props) {
 
   const filteredTutorsList = tutors.filter(tutor => {
     return (
-      tutor.firstName.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      tutor.firstName
+        .toLowerCase()
+        .includes(debouncedSearchTerm.toLowerCase()) ||
       tutor.lastName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
   });
@@ -115,9 +116,7 @@ export default function TutorsList(props) {
         type="text"
         name="searchTerm"
         value={searchTerm}
-        onChange={e =>
-          setSearchTerm(e.target.value)
-        }
+        onChange={e => setSearchTerm(e.target.value)}
       />
       <div className={styles.list}>
         {loading && <Loading />}

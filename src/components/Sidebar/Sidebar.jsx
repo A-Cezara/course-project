@@ -1,11 +1,13 @@
 import Menu from '../Menu';
 import { HiBookOpen, HiAcademicCap } from 'react-icons/hi';
 import './Sidebar.css';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import SidebarToggle from './SidebarToggle/SidebarToggle';
 import { clsx } from 'clsx';
-import React from 'react'
-import useToggle from '../hooks/useToggle';
+import MenuItem from 'components/MenuItem';
+
+import React from 'react';
+import useToggle from 'hooks/useToggle';
 
 export default function Sidebar(props) {
   const [isSidebarExpanded, handleClick] = useToggle(true);
@@ -27,8 +29,7 @@ export default function Sidebar(props) {
     return () => {
       clearTimeout();
     };
-  }, [])
-
+  }, []);
 
   return (
     <aside
@@ -39,9 +40,16 @@ export default function Sidebar(props) {
       {isSidebarExpanded && (
         <>
           <div className="sidebar-brand"></div>
-          <Menu items={menuConfig} />
+          <ul className="sidebar-menu">
+            {menuConfig.map((el, index) => {
+              return <MenuItem key={index} item={el} isActive={index === 0} />;
+            })}
+          </ul>
         </>
       )}
     </aside>
   );
 }
+
+// ul > li > a - ok
+// ul > a > li - not ok

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component, useState } from 'react';
 import Paper from '../Paper';
 import { HiPencilAlt, HiTrash } from 'react-icons/hi';
 
 import styles from './University.module.css';
 import Modal from 'components/Modal/Modal';
 
-export default function University(props) {
+export default function University() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const imagePath = '/images/School.png';
 
   function toggleModal() {
     setIsModalVisible(!isModalVisible);
   }
+
   return (
     <section className="section">
       <Modal
@@ -23,6 +24,7 @@ export default function University(props) {
       >
         Add edit form
       </Modal>
+
       <div className={styles.university}>
         <div className={styles.info}>
           <Paper>
