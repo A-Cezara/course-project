@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import Sidebar from './Sidebar';
 import data from '../utils/data.json';
@@ -10,6 +10,19 @@ import FacultiesPage from 'pages/FacultiesPage/FacultiesPage';
 import FacultyContent from './FacultyContent/FacultyContent';
 import HistoryContent from './HistoryContent/HistoryContent';
 import DescriptionContent from './DescriptionContent/DescriptionContent';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
+import LoadingPage from 'pages/LoadingPage/LoadingPage';
+import { FaRegFileCode } from 'react-icons/fa';
+
+const LazyUniversityPage = lazy(() =>
+  import('pages/UniversityPage/UniversityPage')
+);
+const LazyFacultiesPage = lazy(() =>
+  import('pages/FacultiesPage/FacultiesPage')
+);
+const LazyFacultyContent = lazy(() =>
+  import('./FacultyContent/FacultyContent')
+);
 
 export default function App() {
   useEffect(() => {
@@ -20,16 +33,23 @@ export default function App() {
     <div className="wrapper">
       <Sidebar />
       <main className="main">
-        <Routes>
-          <Route path="/" element={<UniversityPage />} />
-          <Route path="/university" element={<UniversityPage />} />
-          <Route path="/faculties" element={<FacultiesPage />} />
-          <Route path="/faculties/:facultyName" element={<FacultyContent />}>
-            <Route path="" element={<DescriptionContent />} />
-            <Route path="description" element={<DescriptionContent />} />
-            <Route path="history" element={<HistoryContent />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<LoadingPage />}>
+          <Routes>
+            <Route path="/" element={<UniversityPage />} />
+            <Route path="/university" element={<LazyUniversityPage />} />
+            <Route path="/faculties" element={<LazyFacultiesPage />} />
+            <Route
+              path="/faculties/:facultyName"
+              element={<LazyFacultyContent />}
+            >
+              <Route path="" element={<DescriptionContent />} />
+              <Route path="description" element={<DescriptionContent />} />
+              <Route path="history" element={<HistoryContent />} />
+            </Route>
+
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );
