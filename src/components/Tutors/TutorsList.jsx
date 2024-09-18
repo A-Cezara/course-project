@@ -10,6 +10,9 @@ import Loading from 'components/common/Loading';
 import Alert from 'components/common/Alert';
 import useToggle from '../../hooks/useToggle';
 import { useDebounce } from '@uidotdev/usehooks';
+import { useSelector, useDispatch } from 'react-redux';
+import { addTutor, deleteTutor } from '../../redux/tutors/actions';
+import { getTutors } from '../../redux/tutors/selectors';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -27,9 +30,15 @@ export default function TutorsList(props) {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
   const [isFormVisible, toggleForm] = useToggle(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
 
+  const tutorsRedux = useSelector(getTutors);
+  console.log(tutorsRedux);
+  const dispatch = useDispatch();
+
+  //imi aduce din server ------------------------------
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,13 +56,14 @@ export default function TutorsList(props) {
     console.log('Aici');
     fetchData();
   }, []);
+  //------------------------------------------------------------
 
   function renderList(items) {
     return items.map(item => (
       <Tutor
         key={item.phone}
         item={item}
-        handleDelete={() => deleteTutor(item.id)}
+        handleDelete={() => dispatch(deleteTutor(item.id))}
       />
     ));
   }
@@ -68,39 +78,40 @@ export default function TutorsList(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
-    addTutor();
+    const data = formData;
+    dispatch(addTutor(data));
+    // addTutor();
   }
 
   function getTutorsCount(tutors) {
     return tutors.length;
   }
 
-  async function deleteTutor(id) {
-    try {
-      await axios.delete(`/tutors/${id}`);
-      const data = tutors.filter(el => el.id !== id);
+  // async function deleteTutor(id) {
+  //   try {
+  //     await axios.delete(`/tutors/${id}`);
+  //     const data = tutors.filter(el => el.id !== id);
 
-      setTutors([...data]);
-    } catch (error) {
-      setError('Tutorele nu a putut fi sters.');
-    }
-  }
+  //     setTutors([...data]);
+  //   } catch (error) {
+  //     setError('Tutorele nu a putut fi sters.');
+  //   }
+  // }
 
-  async function addTutor() {
-    const data = formData;
+  // async function addTutor() {
+  //   const data = formData;
 
-    try {
-      const response = await axios.post('/tutors', data);
+  //   try {
+  //     const response = await axios.post('/tutors', data);
 
-      setTutors([...tutors, response.data]);
-      setFormData({ ...INITIAL_FORM_STATE });
-    } catch (error) {
-      setError('Tutorele nu a putut fi adaugat.');
-    }
-  }
+  //     setTutors([...tutors, response.data]);
+  //     setFormData({ ...INITIAL_FORM_STATE });
+  //   } catch (error) {
+  //     setError('Tutorele nu a putut fi adaugat.');
+  //   }
+  // }
 
-  const filteredTutorsList = tutors.filter(tutor => {
+  const filteredTutorsList = tutorsRedux.filter(tutor => {
     return (
       tutor.firstName
         .toLowerCase()
